@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  desafio-jn2-app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/usr/share/nginx
+    networks:
+      - network-jn2
+    depends_on:
+      - mysql-app
+
+  mysql-app:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - .docker/dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: desafio-jn2
+      MYSQL_ROOT_PASSWORD: laravel
+    networks:
+      - network-jn2
+
+networks:
+  network-jn2:
+    driver: bridge
